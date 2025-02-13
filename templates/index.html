@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+    <title>Voice to Translation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Voice to Translation</h1>
+    </header>
+    <div class="container">
+        <button id="start-recognition" class="microphone-btn">
+            <i class="fas fa-microphone"></i> Start Recognition
+        </button>
+        <div id="speech-text"></div>
+        <div id="translations"></div>
+    </div>
+
+    <script>
+        const startButton = document.getElementById('start-recognition');
+        const speechTextDiv = document.getElementById('speech-text');
+        const translationsDiv = document.getElementById('translations');
+
+        startButton.addEventListener('click', () => {
+            console.log("Starting recognition...");
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            recognition.start();
+
+            recognition.onstart = () => {
+                console.log("Recognition started.");
+            };
+
+            recognition.onresult = (event) => {
+                const speechText = event.results[0][0].transcript;
+                console.log("Recognized Speech:", speechText);
+                speechTextDiv.textContent = `Recognized Speech: ${speechText}`;
+
+                fetch('/translate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ speech_text: speechText })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Received translations:", data);
+                    translationsDiv.innerHTML = '<h2>Translations:</h2><ul>';
+                    Object.keys(data).forEach(lang => {
+                        const translation = data[lang];
+                        translationsDiv.innerHTML += `<li>${lang}: ${translation}</li>`;
+                    });
+                    translationsDiv.innerHTML += '</ul>';
+                })
+                .catch(error => console.error('Error:', error));
+            };
+
+            recognition.onerror = (event) => {
+                console.log("Error occurred in recognition:", event.error);
+                speechTextDiv.textContent = `Error occurred in recognition: ${event.error}`;
+            };
+
+            recognition.onaudiostart = () => {
+                console.log("Audio capturing started.");
+            };
+
+            recognition.onspeechstart = () => {
+                console.log("Speech detected.");
+            };
+
+            recognition.onspeechend = () => {
+                console.log("Speech has stopped being detected.");
+            };
+
+            recognition.onend = () => {
+                console.log("Recognition ended.");
+            };
+        });
+    </script>
+</body>
+</html>

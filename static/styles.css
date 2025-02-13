@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+h1 {
+    margin: 20px 0;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.microphone-btn {
+    font-size: 24px;
+    padding: 10px;
+}
+
+#speech-text, #translations {
+    margin: 20px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+li:nth-child(1) { background-color: #FF5733; } /* Hindi */
+li:nth-child(2) { background-color: #33C3FF; } /* Kannada */
+li:nth-child(3) { background-color: #FF33A6; } /* Marathi */
+li:nth-child(4) { background-color: #75FF33; } /* Tamil */
+li:nth-child(5) { background-color: #FFC133; } /* Bengali */
+li:nth-child(6) { background-color: #A633FF; } /* Telugu */
+li:nth-child(7) { background-color: #33FFBD; } /* Gujarati */

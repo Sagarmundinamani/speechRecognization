@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+    <title>Translation Results</title>
+</head>
+<body>
+    <h1>Recognized Speech: {{ speech_text }}</h1>
+    <h2>Translations:</h2>
+    <ul>
+        {% for lang, text in translations.items() %}
+            <li>{{ lang }}: {{ text }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('index') }}">Go Back</a>
+</body>
+</html>
